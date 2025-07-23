@@ -6,7 +6,8 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import { setupSwagger } from './config/swagger';
 import userRoutes from './routes/userRoutes';
-import { errorHandler } from './middlewares/ErrorHandler';
+import { errorHandler } from './middlewares/errorHandler';
+import { notFound } from './middlewares/notFound';
 
 const app = express();
 
@@ -17,12 +18,16 @@ app.use(morgan('dev'));
 app.use(cors());
 app.use(express.json());
 
-app.use(errorHandler);
-
 // Swagger
 setupSwagger(app);
 
 // Routes 
 app.use('/api', userRoutes);
+
+// NotFound handler (pour les routes non définies)
+app.use(notFound);
+
+// Middleware de gestion des erreurs
+app.use(errorHandler);
 
 export default app;
