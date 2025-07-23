@@ -5,6 +5,7 @@ import morgan from 'morgan';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import { setupSwagger } from './config/swagger';
+import userRoutes from './routes/userRoutes';
 import { errorHandler } from './middlewares/ErrorHandler';
 
 const app = express();
@@ -21,8 +22,7 @@ app.use(errorHandler);
 // Swagger
 setupSwagger(app);
 
-// Routes (à compléter plus tard)
-// app.use('/api/users', userRoutes);
-// app.use('/api/posts', postRoutes);
+// Routes 
+app.use('/api', userRoutes);
 
 export default app;
