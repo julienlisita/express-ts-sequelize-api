@@ -5,6 +5,7 @@ import morgan from 'morgan';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import { setupSwagger } from './config/swagger';
+import { errorHandler } from './middlewares/ErrorHandler';
 
 const app = express();
 
@@ -14,6 +15,8 @@ dotenv.config();
 app.use(morgan('dev'));
 app.use(cors());
 app.use(express.json());
+
+app.use(errorHandler);
 
 // Swagger
 setupSwagger(app);
