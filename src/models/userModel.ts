@@ -1,3 +1,5 @@
+// src/models/userModel.ts
+
 import { DataTypes, Model, Sequelize } from 'sequelize';
 import bcrypt from 'bcrypt';
 

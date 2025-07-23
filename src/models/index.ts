@@ -1,3 +1,5 @@
+// src/models/index.ts
+
 import { sequelize } from '../config/database';
 import { User, initUserModel } from './userModel';
 
