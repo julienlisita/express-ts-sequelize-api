@@ -17,6 +17,7 @@ interface AppConfig {
   port: number;
   seed: boolean;
   baseUrl: string;
+  jwtSecret: string;
   db: DBConfig;
   dialect: 'postgres';
 }
@@ -26,6 +27,7 @@ const config: AppConfig = {
   port: parseInt(process.env.PORT || '3000', 10),
   seed: process.env.SEED === 'true',
   baseUrl: process.env.API_URL || `http://localhost:${process.env.PORT || 3000}`,
+  jwtSecret: process.env.JWT_SECRET || 'dev_secret_key',
 
   dialect: 'postgres',
 
