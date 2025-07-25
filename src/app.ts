@@ -9,6 +9,7 @@ import compression from 'compression';
 import { apiLimiter } from './middlewares/rateLimiter';
 import { setupSwagger } from './config/swagger';
 import userRoutes from './routes/userRoutes';
+import authRoutes from './routes/authRoutes'
 import { errorHandler } from './middlewares/errorHandler';
 import { notFound } from './middlewares/notFound';
 
@@ -30,6 +31,7 @@ setupSwagger(app);
 
 // Routes 
 app.use('/api', userRoutes);
+app.use('/api', authRoutes);
 
 // NotFound handler (pour les routes non définies)
 app.use(notFound);
