@@ -8,6 +8,7 @@ export class User extends Model {
   public username!: string;
   public email!: string;
   public password!: string;
+  public role!: string;
 
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
@@ -65,18 +66,29 @@ export const initUserModel = (sequelize: Sequelize) => {
           },
         },
       },
+      role: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        defaultValue: 'user', 
+        validate: {
+          isIn: {
+            args: [['user', 'admin', 'superadmin']], 
+            msg: 'Le rôle doit être user, admin ou superadmin',
+          },
+        },
+      },
     },
     {
       sequelize,
       tableName: 'users',
+      defaultScope: {
+      attributes: { exclude: ['password'] },
+    },
+      scopes: {
+        withPassword: {
+          attributes: { include: ['password'] },
+        },
+      },
     }
   );
-
-  // Hook pour hasher le mot de passe avant création
-  User.beforeCreate(async (user: User) => {
-    if (user.password) {
-      const saltRounds = 10;
-      user.password = await bcrypt.hash(user.password, saltRounds);
-    }
-  });
 };
