@@ -28,7 +28,7 @@ export const protect = async (req: Request, res: Response, next: NextFunction) =
   }
 };
 
-export const restrictTo = (allowedRoles: string[]) => {
+export const restrictTo = (...allowedRoles: string[]) => {
   return (req: Request, res: Response, next: NextFunction) => {
     if (!allowedRoles.includes(req.user?.role || '')) {
       return next(new AppError('Accès interdit', 403));
