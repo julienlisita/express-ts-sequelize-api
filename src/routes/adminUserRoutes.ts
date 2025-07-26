@@ -6,6 +6,7 @@ import {
   getUserById,
   createUser,
   deleteUserById,
+  adminChangePassword,
 } from '../controllers/userController';
 import { protect, restrictTo } from '../middlewares/auth';
 
@@ -105,5 +106,44 @@ router.post('/admin/users', protect, restrictTo('admin'), createUser);
  *         description: Utilisateur non trouvé
  */
 router.delete('/admin/users/:id', protect, restrictTo('admin'), deleteUserById);
+
+
+/**
+ * @swagger
+ * /api/admin/users/{id}/change-password:
+ *   patch:
+ *     summary: Change le mot de passe d’un utilisateur (admin)
+ *     tags: [Admin - Users]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required: [newPassword]
+ *             properties:
+ *               newPassword:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: Mot de passe mis à jour avec succès
+ *       400:
+ *         description: Requête invalide
+ *       401:
+ *         description: Non authentifié
+ *       403:
+ *         description: Accès interdit
+ *       404:
+ *         description: Utilisateur non trouvé
+ */
+router.patch('/admin/users/:id/change-password', protect, restrictTo('admin'), adminChangePassword);
 
 export default router;

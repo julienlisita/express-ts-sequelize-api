@@ -3,6 +3,7 @@
 import { Request, Response, NextFunction } from 'express';
 import { User } from '../models/userModel';
 import AppError from '../utils/AppError';
+import bcrypt from 'bcrypt';
 
 export const getPublicUsers = async (req: Request, res: Response, next: NextFunction) => {
   try {
@@ -76,6 +77,30 @@ export const deleteUserById = async (req: Request, res: Response, next: NextFunc
 
     await user.destroy();
     res.json({ message: 'Utilisateur supprimé avec succès' });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const adminChangePassword = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const userId = req.params.id;
+    const { newPassword } = req.body;
+
+    if (!newPassword) {
+      return next(new AppError("Le nouveau mot de passe est requis.", 400));
+    }
+
+    const user = await User.scope('withPassword').findByPk(userId);
+    if (!user) {
+      return next(new AppError("Utilisateur non trouvé.", 404));
+    }
+
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+    user.password = hashedPassword;
+    await user.save();
+
+    res.status(200).json({ message: "Mot de passe mis à jour avec succès par l’admin." });
   } catch (error) {
     next(error);
   }
