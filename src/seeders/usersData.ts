@@ -12,6 +12,7 @@ const rawUsers = [
     username: 'BobMartin',
     email: 'bob.martin@example.com',
     password: 'hashed_password_2',
+    role: 'admin',
   },
   {
     username: 'CharlieDurand',
@@ -22,6 +23,7 @@ const rawUsers = [
     username: 'DianePetit',
     email: 'diane.petit@example.com',
     password: 'hashed_password_4',
+    role: 'admin',
   },
   {
     username: 'EricRoux',

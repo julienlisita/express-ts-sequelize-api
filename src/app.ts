@@ -10,6 +10,7 @@ import { apiLimiter } from './middlewares/rateLimiter';
 import { setupSwagger } from './config/swagger';
 import userRoutes from './routes/userRoutes';
 import authRoutes from './routes/authRoutes'
+import adminUserRoutes from './routes/adminUserRoutes';
 import { errorHandler } from './middlewares/errorHandler';
 import { notFound } from './middlewares/notFound';
 
@@ -32,6 +33,7 @@ setupSwagger(app);
 // Routes 
 app.use('/api', userRoutes);
 app.use('/api', authRoutes);
+app.use('/api', adminUserRoutes);
 
 // NotFound handler (pour les routes non définies)
 app.use(notFound);
