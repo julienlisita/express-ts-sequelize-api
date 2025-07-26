@@ -8,7 +8,7 @@ import helmet from 'helmet';
 import compression from 'compression';
 import { apiLimiter } from './middlewares/rateLimiter';
 import { setupSwagger } from './config/swagger';
-import userRoutes from './routes/userRoutes';
+import publicUserRoutes from './routes/publicUserRoutes';
 import authRoutes from './routes/authRoutes'
 import adminUserRoutes from './routes/adminUserRoutes';
 import { errorHandler } from './middlewares/errorHandler';
@@ -31,7 +31,7 @@ app.use('/api', apiLimiter);
 setupSwagger(app);
 
 // Routes 
-app.use('/api', userRoutes);
+app.use('/api', publicUserRoutes);
 app.use('/api', authRoutes);
 app.use('/api', adminUserRoutes);
 

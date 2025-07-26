@@ -4,6 +4,29 @@ import { Request, Response, NextFunction } from 'express';
 import { User } from '../models/userModel';
 import AppError from '../utils/AppError';
 
+export const getPublicUsers = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const users = await User.findAll({
+      attributes: ['id', 'username', 'role', 'createdAt'],
+    });
+    res.status(200).json(users);
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const getPublicUserById = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const user = await User.findByPk(req.params.id, {
+      attributes: ['id', 'username', 'role', 'createdAt'],
+    });
+    if (!user) return next(new AppError('Utilisateur non trouvé', 404));
+    res.status(200).json(user);
+  } catch (error) {
+    next(error);
+  }
+};
+
 export const getAllUsers = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const users = await User.findAll();
